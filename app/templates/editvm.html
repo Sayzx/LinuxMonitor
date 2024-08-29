@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Éditer la machine virtuelle</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+</head>
+<body class="container">
+    <h1 class="mt-5">Éditer la machine virtuelle</h1>
+    
+    <div class="mt-4">
+        {% if vm_info %}
+            <h2>Informations sur la machine virtuelle</h2>
+            <p>Nom : {{ vm_info.name }}</p>
+            <p>Adresse IP : {{ vm_info.ip }}</p>
+            <p>Ping : {{ vm_info.ping }}</p>
+            <canvas id="pingChart" width="400" height="200"></canvas>
+        {% else %}
+            <p>Machine non trouvée</p>
+        {% endif %}
+    </div>
+
+    <div class="mt-4">
+        <h2>Gestion des utilisateurs</h2>
+       
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const canvas = document.getElementById('pingChart');
+            const ctx = canvas.getContext('2d');
+            const pingChart = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: [],
+                    datasets: [{
+                        label: 'Ping en temps réel (ms)',
+                        data: [],
+                        borderColor: 'blue',
+                        borderWidth: 2,
+                        fill: false
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            type: 'linear',
+                            position: 'bottom'
+                        },
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+            setInterval(updatePingChart, 10000);
+        });
+    </script>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+</body>
+</html>
